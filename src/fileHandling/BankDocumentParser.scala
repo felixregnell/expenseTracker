@@ -1,5 +1,6 @@
 package fileHandling
 
+// os-lib scala (using tooolkit default)
 import java.nio.file.{Paths, Files}
 import java.nio.file.StandardOpenOption
 import java.nio.charset.StandardCharsets
@@ -82,7 +83,9 @@ class BankDocumentParser(private val userBusinessesFile: String):
             scala.io.StdIn.readLine("The business " + '"' + bankBusinessName + 
             '"' + " doesn't exist in the userdefined namespace, define it:" + '\n')
           userBusinesses.put(bankBusinessName, userDefinedName)
-          Files.write(Paths.get(userBusinessesFile), ('\n' + userDefinedName).getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND)
+          Files.write(Paths.get(userBusinessesFile), 
+          ('\n' + bankBusinessName + "->" + userDefinedName).getBytes(StandardCharsets.UTF_8), 
+          StandardOpenOption.APPEND)
           userDefinedName
   
   private def pareseCurrencyToSEK(currency: String, amount: String): Double = 
