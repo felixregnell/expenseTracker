@@ -1,0 +1,5 @@
+Ideas for program features:
+  - Create a transaction class that contains all wanted transaction information (date, amount, business), that also has a unique id generated from all the info the bank gives about the transaction (How ensure uniqueness?)
+  - Create a date class (implementing some api) with equals method
+  - Make possible to format transactions into a cvs file to make loadable into xl
+  - 
