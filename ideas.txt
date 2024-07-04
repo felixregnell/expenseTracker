@@ -4,4 +4,4 @@ Ideas for program features:
   - Make possible to format transactions into a cvs file to make loadable into xl
   - use string interpelation instead of + on strings
   - create a nice way to represent 10000 as 10 000 or prehaps 10, 000 (~before for every set of three 0s add a ' ' or ',') 
-  - test idea for git push
+  - test idea for git pushhej, test
