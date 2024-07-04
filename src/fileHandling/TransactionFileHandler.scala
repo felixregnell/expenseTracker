@@ -4,7 +4,7 @@ class TransactionFileHandler:
   private val bankDocParser = new BankDocumentParser("textFiles/userBusinesses.txt")
   private val transactionsFileName = "textFiles/userTransactions.txt"
 
-  def printTransaction(transactions: Map[String, Vector[(String, Double)]]): Unit =
+  def printTransactions(transactions: Map[String, Vector[(String, Double)]]): Unit =
     transactions.map((business, transactions) => 
        println(business + ' ' + 
        (for transaction <- transactions yield 
@@ -18,7 +18,7 @@ class TransactionFileHandler:
     val newTransactions: Map[String, Vector[(String, Double)]] = 
       bankDocParser.parseDocument(fileName)
 
-    printTransaction(newTransactions)
+    printTransactions(newTransactions)
 
     // val oldTransactions = ??? // Read from file specified by trasactionsFileName
 
