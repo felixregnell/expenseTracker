@@ -38,7 +38,7 @@ class BankDocumentParser(private val userBusinessesFile: String):
       .fromFile(fileName)
       .getLines()
       .toList
-      .map(line => line.drop(1).dropRight(1)) // Strings sourrounding "" removed
+      .map(line => line.drop(1).dropRight(1)) // sourrounding "" removed
 
     val transactionsStartingIndex = lines.indexOf("Kontohändelser")
     val bankAccountInformation = lines.take(transactionsStartingIndex-1).filterNot(_ == "")
@@ -80,8 +80,7 @@ class BankDocumentParser(private val userBusinessesFile: String):
         case Some(userDefinedName) => userDefinedName
         case None => 
           val userDefinedName = 
-            scala.io.StdIn.readLine("The business " + '"' + bankBusinessName + 
-            '"' + " doesn't exist in the userdefined namespace, define it:" + '\n')
+            scala.io.StdIn.readLine(s"The business $"$bankBusinessName$" doesn't exist in the userdefined namespace, define it:\n")
           userBusinesses.put(bankBusinessName, userDefinedName)
           Files.write(Paths.get(userBusinessesFile), 
           ('\n' + bankBusinessName + "->" + userDefinedName).getBytes(StandardCharsets.UTF_8), 
@@ -102,8 +101,6 @@ class BankDocumentParser(private val userBusinessesFile: String):
     }
     parseResult match
       case scala.util.Failure(exception) => 
-        println("The amount-string " + '"' + amount + '"' + " isn't a valid number, 0 added")
+        println(s"The amount-string $"$amount$" isn't a valid number, 0 added")
         0
       case scala.util.Success(amount) => amount*scaler
-    
-    
