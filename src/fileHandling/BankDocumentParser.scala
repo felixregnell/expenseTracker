@@ -1,20 +1,18 @@
-package fileHandling
+//> using scala 3.4.2
+//> using toolkit default
 
-// os-lib scala (using tooolkit default)
-import java.nio.file.{Paths, Files}
-import java.nio.file.StandardOpenOption
-import java.nio.charset.StandardCharsets
+package fileHandling
 
 
 export scala.collection.mutable.ArrayBuffer as MutableArray
 export collection.mutable.Map as MutableMap
 
-class BankDocumentParser(private val userBusinessesFile: String):
+class BankDocumentParser(private val userBusinessesFile: os.Path):
   private val userBusinesses = loadUserBusinesses(userBusinessesFile)
-  private def loadUserBusinesses(fileName: String): MutableMap[String, String] = 
+  private def loadUserBusinesses(file: os.Path): MutableMap[String, String] = 
     val userBusinesses = MutableMap[String, String]()
     val lines = scala.io.Source
-      .fromFile(fileName)
+      .fromFile(file.toString)
       .getLines()
       .toList
       .map(line =>
@@ -33,7 +31,6 @@ class BankDocumentParser(private val userBusinessesFile: String):
   def parseDocument(fileName: String): 
     Map[String, Vector[(String, Double)]] = 
     val transactions = MutableMap[String, MutableArray[(String, Double)]]() // business -> Vector(date, amount)
-
     val lines: List[String] = scala.io.Source
       .fromFile(fileName)
       .getLines()
@@ -75,18 +72,16 @@ class BankDocumentParser(private val userBusinessesFile: String):
         case None => transactions.put(userDefinedName, MutableArray((date, amount)))
 
   private def getUserDefinedName(bankBusinessName: String): String = 
-    val userDefinedNameOption = userBusinesses.get(bankBusinessName)
-      userDefinedNameOption match
-        case Some(userDefinedName) => userDefinedName
-        case None => 
-          val userDefinedName = 
-            scala.io.StdIn.readLine(s"The business $"$bankBusinessName$" doesn't exist in the userdefined namespace, define it:\n")
-          userBusinesses.put(bankBusinessName, userDefinedName)
-          Files.write(Paths.get(userBusinessesFile), 
-          ('\n' + bankBusinessName + "->" + userDefinedName).getBytes(StandardCharsets.UTF_8), 
-          StandardOpenOption.APPEND)
-          userDefinedName
-  
+    val userDefinedNameOpt = userBusinesses.get(bankBusinessName)
+    userDefinedNameOpt match
+      case Some(userDefinedName) => userDefinedName
+      case None => 
+        val userDefinedName = 
+          scala.io.StdIn.readLine(s"The business $"$bankBusinessName$" doesn't exist in the userdefined namespace, define it:\n")
+        userBusinesses.put(bankBusinessName, userDefinedName)
+        os.write(userBusinessesFile, userDefinedName)
+        userDefinedName
+
   private def pareseCurrencyToSEK(currency: String, amount: String): Double = 
     val currencies: Map[String, Double] = Map(
       "SEK"-> 1,

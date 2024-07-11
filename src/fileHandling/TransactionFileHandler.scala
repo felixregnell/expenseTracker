@@ -1,8 +1,8 @@
 package fileHandling
 
 class TransactionFileHandler:
-  private val bankDocParser = new BankDocumentParser("textFiles/userBusinesses.txt")
-  private val transactionsFileName = "textFiles/userTransactions.txt"
+  private val bankDocParser = new BankDocumentParser(os.Path("textFiles/userBusinesses.txt"))
+  private val transactionsFile = os.Path("textFiles/userTransactions.txt")
 
   def printTransactions(transactions: Map[String, Vector[(String, Double)]]): Unit =
     transactions.map((business, transactions) => 
