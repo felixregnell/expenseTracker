@@ -1,8 +1,18 @@
 Ideas for program features:
-  - Create a transaction class that contains all wanted transaction information (date, amount, business), that also has a unique id generated from all the info the bank gives about the transaction (How ensure uniqueness?)
-  - Create a date class (implementing some api) with equals method
-  - Make possible to format transactions into a cvs file to make loadable into xl
-  - create a nice way to represent 10000 as 10 000 or prehaps 10, 000 (~before for every set of three 0s add a ' ' or ',') 
-  - Use new nice scala write to file thing (instead of java nio in BankDocumentParser)
+ 
 
-test igen!
+  Transactions
+    - Create a transaction class that contains all wanted transaction information (date, amount, business), that also has a unique
+      id generated from all the info the bank gives about the transaction (How ensure uniqueness?)
+    - swish `till` och `från` should be "ignored" (`-` implies if it's to someone, and `till` and `från` shouldn't both be forced to 
+      be saved as a userbusiness). This can be done in BankDocumentParser where if a bussiness isn't already checked: 
+      `if isSwish then ... else proceed as normal`
+    - Make possible to format transactions into a cvs file to make loadable into xl
+
+  Other 
+    - Create a date class (implementing some api) with equals method
+    - create a nice way to represent 10000 as 10 000 or prehaps 10, 000 (~before for every set of three 0s add a ' ' or ',') 
+    - find a way of storing comparissons of different currencies to SEK tied to date: update `BankDocumentParser.parseCurrencyToSEK`
+      Would also be cool if new data about the currency that date could be fetched when needed from the internet 
+    - testing
+    - dependecy list
